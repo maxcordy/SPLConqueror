@@ -72,6 +72,7 @@ namespace CommandLine
         public const string COMMAND_PRINT_MLSETTINGS = "printsettings";
 
         public const string COMMAND_VARIABILITYMODEL = "vm";
+        public const string COMMAND_VARIABILITYMODEL_DIMACS = "dimacs";
         public const string COMMAND_SET_NFP = "nfp";
         public const string COMMAND_SET_MLSETTING = "mlsettings";
         public const string COMMAND_SET_SOLVER = "solver";
@@ -572,9 +573,13 @@ namespace CommandLine
                     break;
 
                 case COMMAND_VARIABILITYMODEL:
+                case COMMAND_VARIABILITYMODEL_DIMACS:
                     String debug = Directory.GetCurrentDirectory();
                     GlobalState.vmSource = task.TrimEnd();
-                    GlobalState.varModel = VariabilityModel.loadFromXML(task.Trim());
+                    GlobalState.varModel =
+                        command.ToLower().Equals(COMMAND_VARIABILITYMODEL)
+                        ? VariabilityModel.loadFromXML(task.Trim())
+                        : VariabilityModel.loadFromDimacs(task.Trim());
                     if (GlobalState.varModel == null)
                     {
                         GlobalState.logError.logLine("No variability model found at " + task);
@@ -586,6 +591,7 @@ namespace CommandLine
                     if (targetPath.Length == 0)
                         targetPath = task.Substring(0, Math.Max(task.LastIndexOf("\\"), task.LastIndexOf("/"))) + Path.DirectorySeparatorChar;
                     break;
+
                 case COMMAND_SET_NFP:
                     GlobalState.currentNFP = GlobalState.getOrCreateProperty(task.Trim());
                     break;
