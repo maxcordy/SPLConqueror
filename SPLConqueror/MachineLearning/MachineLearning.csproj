@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Cplex>..\packages\cplex\ILOG.Concert.dll</Cplex>
   </PropertyGroup>
   <Choose>
-    <When Condition="Exists($(Cplex))">
+    <When Condition="Exists('$(Cplex)')">
       <ItemGroup>
         <Compile Include="Solver\VariantGenerator\CplexVariantGenerator.cs" />
       </ItemGroup>
